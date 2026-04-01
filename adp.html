@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User API Example</title>
+    <style>
+        .user-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            text-align: center;
+            width: 250px;
+        }
+        img {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Users</h1>
+    <div id="user-container"></div>
+
+    <script>
+        const apiUrl = "https://randomuser.me/api/?results=5"; // Fetch 5 random users
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("user-container");
+                data.results.forEach(user => {
+                    const userDiv = document.createElement("div");
+                    userDiv.classList.add("user-card");
+                    userDiv.innerHTML = `
+                        <img src="${user.picture.medium}" alt="User Picture"><br>
+                        <strong>${user.name.first} ${user.name.last}</strong><br>
+                        ${user.email}
+                    `;
+                    container.appendChild(userDiv);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching API data:", error);
+                document.getElementById("user-container").innerHTML = "Failed to fetch users.";
+            });
+    </script>
+</body>
+</html>
